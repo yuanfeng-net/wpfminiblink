@@ -1006,9 +1006,11 @@ namespace WpfMiniBlink
         internal static MiniblinkBrowser InvokeBro { get; private set; }
         private static string _popHookName = "func" + Guid.NewGuid().ToString().Replace("-", "");
         private static string _openHookName = "func" + Guid.NewGuid().ToString().Replace("-", "");
-        private EventHandler<PaintUpdatedEventArgs> _browserPaintUpdated;
+
         private static bool IsSetDefaultStyleKey = false;
         private static object DefaultStyleKeyLock = new object();
+
+        private EventHandler<PaintUpdatedEventArgs> _browserPaintUpdated;
         private Hashtable _ref = new Hashtable();
         public IList<ILoadResource> LoadResourceHandlerList { get; private set; }
         public CookieCollection Cookies => GetCookies();
@@ -1031,7 +1033,6 @@ namespace WpfMiniBlink
                       new System.Windows.FrameworkPropertyMetadata(typeof(MiniblinkBrowser)));
                 }
             }
-
             ViewImage = new System.Windows.Controls.Image();
 
             ViewImage.Stretch = Stretch.None;
@@ -1074,7 +1075,9 @@ namespace WpfMiniBlink
                 _wkeCreateViewCallback = OnCreateView;
 
                 MBApi.wkeOnCreateView(MiniblinkHandle, _wkeCreateViewCallback, IntPtr.Zero);
+                
                 _browserPaintUpdated += BrowserPaintUpdated;
+
                 var wkePaintUpdated = new wkePaintUpdatedCallback(OnPaintUpdated);
                 _ref.Add(Guid.NewGuid(), wkePaintUpdated);
 

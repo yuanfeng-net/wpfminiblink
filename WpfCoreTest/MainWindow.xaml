@@ -1,0 +1,20 @@
+﻿<Window x:Class="WpfCoreTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfCoreTest"
+        xmlns:core="clr-namespace:WpfMiniBlink;assembly=WpfCoreMiniBlink"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="页面1">
+                <core:MiniblinkBrowser x:Name="mb1"></core:MiniblinkBrowser>
+            </TabItem>
+            <TabItem Header="页面2">
+                <core:MiniblinkBrowser x:Name="mb2"></core:MiniblinkBrowser>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

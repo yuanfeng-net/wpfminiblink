@@ -1,0 +1,79 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\2019\\齐论项目\\wpfminiblink\\WpfCoreMiniBlink\\WpfCoreMiniBlink.csproj": {}
+  },
+  "projects": {
+    "D:\\2019\\齐论项目\\wpfminiblink\\WpfCoreMiniBlink\\WpfCoreMiniBlink.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\2019\\齐论项目\\wpfminiblink\\WpfCoreMiniBlink\\WpfCoreMiniBlink.csproj",
+        "projectName": "WpfCoreMiniBlink",
+        "projectPath": "D:\\2019\\齐论项目\\wpfminiblink\\WpfCoreMiniBlink\\WpfCoreMiniBlink.csproj",
+        "packagesPath": "C:\\Users\\feng\\.nuget\\packages\\",
+        "outputPath": "D:\\2019\\齐论项目\\wpfminiblink\\WpfCoreMiniBlink\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\feng\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/F/imagesharp": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "DotNetZip": {
+              "target": "Package",
+              "version": "[1.13.7, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[5.0.0-preview.3.20214.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
