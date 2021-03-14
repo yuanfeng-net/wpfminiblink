@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Miniblink
 {
@@ -101,6 +103,29 @@ namespace Miniblink
             }
 
             return _postBody;
+        }
+
+        /// <summary>
+        /// 请求头
+        /// </summary>
+        /// <returns></returns>
+        public string GetAllHead()
+        {
+            var ptr = MBApi.wkeNetGetRawHttpHead(Job.Handle);
+            StringBuilder sbhead = new StringBuilder();
+            wkeSlist els ;
+            again:
+            els = (wkeSlist)Marshal.PtrToStructure(ptr, typeof(wkeSlist));
+
+            string head = Marshal.PtrToStringAnsi(els.str);
+            sbhead.AppendLine(head);
+            if (els.next != IntPtr.Zero)
+            {
+                ptr = els.next;
+                goto again;
+            }
+
+            return sbhead.ToString();
         }
 
         public void SetHeader(string name, string value)

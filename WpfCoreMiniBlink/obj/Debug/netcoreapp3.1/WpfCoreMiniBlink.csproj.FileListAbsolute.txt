@@ -1,8 +1,0 @@
-D:\2019\齐论项目\wpfminiblink\WpfCoreMiniBlink\obj\Debug\netcoreapp3.1\WpfCoreMiniBlink.csprojAssemblyReference.cache
-D:\2019\齐论项目\wpfminiblink\WpfCoreMiniBlink\obj\Debug\netcoreapp3.1\WpfCoreMiniBlink.AssemblyInfoInputs.cache
-D:\2019\齐论项目\wpfminiblink\WpfCoreMiniBlink\obj\Debug\netcoreapp3.1\WpfCoreMiniBlink.AssemblyInfo.cs
-D:\2019\齐论项目\wpfminiblink\WpfCoreMiniBlink\bin\Debug\netcoreapp3.1\WpfCoreMiniBlink.deps.json
-D:\2019\齐论项目\wpfminiblink\WpfCoreMiniBlink\bin\Debug\netcoreapp3.1\WpfCoreMiniBlink.dll
-D:\2019\齐论项目\wpfminiblink\WpfCoreMiniBlink\bin\Debug\netcoreapp3.1\WpfCoreMiniBlink.pdb
-D:\2019\齐论项目\wpfminiblink\WpfCoreMiniBlink\obj\Debug\netcoreapp3.1\WpfCoreMiniBlink.dll
-D:\2019\齐论项目\wpfminiblink\WpfCoreMiniBlink\obj\Debug\netcoreapp3.1\WpfCoreMiniBlink.pdb

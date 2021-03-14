@@ -128,6 +128,14 @@ namespace Miniblink
     }
 
     [StructLayout(LayoutKind.Sequential)]
+    public struct wkeSlist
+    {
+        public IntPtr str;
+        public IntPtr next;
+    }
+
+
+    [StructLayout(LayoutKind.Sequential)]
     internal struct wkeMemBuf
     {
         public int size;

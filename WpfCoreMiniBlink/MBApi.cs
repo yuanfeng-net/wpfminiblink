@@ -958,13 +958,66 @@ namespace Miniblink
             return wkeIsCookieEnabled_x86(webView) != 0;
         }
 
-        //[DllImport(DLL_x86, EntryPoint = "wkeSetCookieJarPath", CallingConvention = CallingConvention.Cdecl,
-        //    CharSet = CharSet.Unicode)]
-        //public static extern void wkeSetCookieJarPath(IntPtr webView, string path);
+        [DllImport(DLL_x86, EntryPoint = "wkeSetCookieJarPath", CallingConvention = CallingConvention.Cdecl,
+            CharSet = CharSet.Unicode)]
+        private static extern void wkeSetCookieJarPath_x86(IntPtr webView, string path);
 
-        //[DllImport(DLL_x86, EntryPoint = "wkeSetCookieJarFullPath", CallingConvention = CallingConvention.Cdecl,
-        //    CharSet = CharSet.Unicode)]
-        //public static extern void wkeSetCookieJarFullPath(IntPtr webView, string path);
+
+        [DllImport(DLL_x86, EntryPoint = "wkeSetCookieJarFullPath", CallingConvention = CallingConvention.Cdecl,
+            CharSet = CharSet.Unicode)]
+        private static extern void wkeSetCookieJarFullPath_x86(IntPtr webView, string path);
+
+        public static void wkeSetCookieJarPath(IntPtr webView, string path)
+        {
+            if (is64())
+            {
+                wkeSetCookieJarPath_x64(webView, path);
+            }
+
+            wkeSetCookieJarPath_x86(webView, path);
+        }
+
+
+        [DllImport(DLL_x64, EntryPoint = "wkeSetCookieJarPath", CallingConvention = CallingConvention.Cdecl,
+            CharSet = CharSet.Unicode)]
+        private static extern void wkeSetCookieJarPath_x64(IntPtr webView, string path);
+
+
+        [DllImport(DLL_x64, EntryPoint = "wkeSetCookieJarFullPath", CallingConvention = CallingConvention.Cdecl,
+            CharSet = CharSet.Unicode)]
+        private static extern void wkeSetCookieJarFullPath_x64(IntPtr webView, string path);
+
+
+        public static void wkeSetCookieJarFullPath(IntPtr webView, string path)
+        {
+            if (is64())
+            {
+                wkeSetCookieJarFullPath_x64(webView, path);
+            }
+
+            wkeSetCookieJarFullPath_x86(webView, path);
+        }
+
+
+        [DllImport(DLL_x86, EntryPoint = "wkeSetLocalStorageFullPath", CallingConvention = CallingConvention.Cdecl,
+            CharSet = CharSet.Unicode)]
+        private static extern void wkeSetLocalStorageFullPath_x86(IntPtr webView, string path);
+
+
+        [DllImport(DLL_x64, EntryPoint = "wkeSetLocalStorageFullPath", CallingConvention = CallingConvention.Cdecl,
+            CharSet = CharSet.Unicode)]
+        private static extern void wkeSetLocalStorageFullPath_x64(IntPtr webView, string path);
+
+
+        public static void wkeSetLocalStorageFullPath(IntPtr webView, string path)
+        {
+            if (is64())
+            {
+                wkeSetLocalStorageFullPath_x64(webView, path);
+            }
+
+            wkeSetLocalStorageFullPath_x86(webView, path);
+        }
 
         //[DllImport(DLL_x86, EntryPoint = "wkeSetMediaVolume", CallingConvention = CallingConvention.Cdecl)]
         //public static extern void wkeSetMediaVolume(IntPtr webView, float volume);
@@ -1582,6 +1635,8 @@ namespace Miniblink
             }
         }
 
+
+
         [DllImport(DLL_x86, EntryPoint = "wkeNetHoldJobToAsynCommit", CallingConvention = CallingConvention.Cdecl)]
         private static extern void wkeNetHoldJobToAsynCommit_x86(IntPtr job);
         [DllImport(DLL_x64, EntryPoint = "wkeNetHoldJobToAsynCommit", CallingConvention = CallingConvention.Cdecl)]
@@ -1599,10 +1654,33 @@ namespace Miniblink
             }
         }
 
+        //wkeNetGetRawHttpHead
+        /*
+         type wkeSlist struct {
+	            str  uintptr
+	            next uintptr
+         }
+         */
+        [DllImport(DLL_x86, EntryPoint = "wkeNetGetRawHttpHead", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr wkeNetGetRawHttpHead_x86(IntPtr job);
+        [DllImport(DLL_x64, EntryPoint = "wkeNetGetRawHttpHead", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr wkeNetGetRawHttpHead_x64(IntPtr job);
+
+        public static IntPtr wkeNetGetRawHttpHead(IntPtr job)
+        {
+            if (is64())
+            {
+                return wkeNetGetRawHttpHead_x64(job);
+            }
+            return wkeNetGetRawHttpHead_x86(job);
+        }
+
+
         [DllImport(DLL_x86, EntryPoint = "wkeNetGetPostBody", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr wkeNetGetPostBody_x86(IntPtr job);
         [DllImport(DLL_x64, EntryPoint = "wkeNetGetPostBody", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr wkeNetGetPostBody_x64(IntPtr job);
+
 
         public static IntPtr wkeNetGetPostBody(IntPtr job)
         {

@@ -189,6 +189,9 @@ namespace WpfMiniBlink
             MBApi.wkePerformCookieCommand(MiniblinkHandle, wkeCookieCommand.ClearSessionCookies);
         }
 
+
+        
+
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string UserAgent
@@ -697,6 +700,8 @@ namespace WpfMiniBlink
             }
         }
 
+
+
         private void JobCompleted(NetJob job)
         {
             if (job.Data != null)
@@ -806,7 +811,7 @@ namespace WpfMiniBlink
             return false;
         }
 
-        private static void NetSetData(IntPtr job, byte[] data = null)
+        public static void NetSetData(IntPtr job, byte[] data = null)
         {
             if (data != null && data.Length > 0)
             {
@@ -1015,6 +1020,13 @@ namespace WpfMiniBlink
         public IList<ILoadResource> LoadResourceHandlerList { get; private set; }
         public CookieCollection Cookies => GetCookies();
 
+        public string Cookie => GetCookiesStr();
+
+        /// <summary>
+        /// 当前浏览器的路径
+        /// </summary>
+        private static string nowbrowserId = Guid.NewGuid().ToString().Replace("-", "");
+
         public MiniblinkBrowser()
         {
 
@@ -1053,12 +1065,32 @@ namespace WpfMiniBlink
                     MBApi.wkeInitialize();
                 }
 
+
+                /*
+                 设置基础信息
+                nowbrowserId
+                 */
+
+
+
                 MiniblinkHandle = MBApi.wkeCreateWebView();
 
                 if (MiniblinkHandle == IntPtr.Zero)
                 {
                     throw new WKECreateException();
                 }
+
+                string nowPath = $"{System.Environment.CurrentDirectory}\\temp\\{nowbrowserId}";
+
+                if (!System.IO.Directory.Exists(nowPath))
+                {
+                    System.IO.Directory.CreateDirectory(nowPath);
+                }
+                MBApi.wkeSetCookieJarFullPath(MiniblinkHandle, nowPath+ "\\cookies.dat");
+                // var file = System.Environment.CurrentDirectory + "\\" + nowbrowserId + "\\cookies.dat";
+             //   nowPath = $"{System.Environment.CurrentDirectory}\\temp\\{nowbrowserId}";
+                MBApi.wkeSetLocalStorageFullPath(MiniblinkHandle, nowPath);
+
                 MBApi.wkeSetDragEnable(MiniblinkHandle, false);
                 MBApi.wkeSetDragDropEnable(MiniblinkHandle, false);
                 //MBApi.wkeSetHandle(MiniblinkHandle, Handle);
@@ -1066,7 +1098,7 @@ namespace WpfMiniBlink
 
                 titleChangeCallback = OnTitleChangedCallback;
                 MBApi.wkeOnTitleChanged(MiniblinkHandle, titleChangeCallback, IntPtr.Zero);
-
+                
                 titleChangeCallback2 = OnTitleChangedCallback2;
 
                 //设置鼠标
@@ -1508,7 +1540,7 @@ namespace WpfMiniBlink
 
         private CookieCollection GetCookies()
         {
-            var file = "cookies.dat";
+            var file = System.Environment.CurrentDirectory + "\\temp\\" + nowbrowserId + "\\cookies.dat";
 
             if (File.Exists(file) == false)
             {
@@ -1563,6 +1595,89 @@ namespace WpfMiniBlink
             return cookies;
         }
 
+        private string GetCookiesStr()
+        {
+            var file = System.Environment.CurrentDirectory + "\\temp\\" + nowbrowserId + "\\cookies.dat";
+
+            if (File.Exists(file) == false)
+            {
+                return null;
+            }
+
+            MBApi.wkePerformCookieCommand(MiniblinkHandle, wkeCookieCommand.FlushCookiesToFile);
+            //var host = new Uri(Url).Host.ToLower();
+            var cookies =new StringBuilder();
+            var rows = File.ReadAllLines(file, Encoding.UTF8);
+
+            List<string> keys = new List<string>();
+
+            foreach (var row in rows)
+            {
+                if (row.StartsWith("# ")) continue;
+                var items = row.Split('\t');
+                if (items.Length != 7) continue;
+                var domain = items[0];
+                var httpOnly = domain.StartsWith("#HttpOnly_");
+                if (httpOnly)
+                {
+
+                }
+
+                if (!keys.Contains(items[5]))
+                {
+                    keys.Add(items[5]);
+
+                    cookies.Append($"{items[5]}={items[6]};");
+                }
+            }
+
+            return cookies.ToString();
+        }
+
+
+        public string GetCookiesString()
+        {
+            var file = System.Environment.CurrentDirectory + "\\temp\\" + nowbrowserId + "\\cookies.dat";
+           // var file = "cookies.dat";
+
+            if (File.Exists(file) == false)
+            {
+                return null;
+            }
+
+            MBApi.wkePerformCookieCommand(MiniblinkHandle, wkeCookieCommand.FlushCookiesToFile);
+            var host = new Uri(Url).Host.ToLower();
+            var rows = File.ReadAllLines(file, Encoding.UTF8);
+            StringBuilder sb = new StringBuilder();
+            foreach (var row in rows)
+            {
+                if (row.StartsWith("# ")) continue;
+                var items = row.Split('\t');
+                if (items.Length != 7) continue;
+                var domain = items[0];
+                var httpOnly = domain.StartsWith("#HttpOnly_");
+                if (httpOnly)
+                {
+                    domain = domain.Substring(domain.IndexOf("_", StringComparison.Ordinal) + 1).ToLower();
+                }
+
+                var cookie = new Cookie
+                {
+                    HttpOnly = httpOnly,
+                    Domain = domain.TrimStart('.'),
+                    Path = items[2],
+                    Secure = "true".Equals(items[3], StringComparison.OrdinalIgnoreCase),
+                    Expires = new DateTime(1970, 1, 1).AddSeconds(long.Parse(items[4])),
+                    Name = items[5],
+                    Value = items[6]
+                };
+
+
+                sb.Append(cookie.Name).Append("=").Append(cookie.Value).Append(";");
+            }
+
+            return sb.ToString();
+        }
 
 
         #region 消息处理

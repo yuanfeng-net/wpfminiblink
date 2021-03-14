@@ -9,7 +9,7 @@ namespace Miniblink
     public class PostBody
     {
         private Dictionary<string, string> _param;
-
+        private string rawData;
         internal PostBody(IntPtr job)
         {
             _param = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -29,7 +29,8 @@ namespace Miniblink
                     var mem = (wkeMemBuf)Marshal.PtrToStructure(item.data, typeof(wkeMemBuf));
                     var buf = new byte[mem.length];
                     Marshal.Copy(mem.data, buf, 0, buf.Length);
-                    ParseData(Encoding.UTF8.GetString(buf));
+                    rawData = Encoding.UTF8.GetString(buf);
+                    ParseData(rawData);
                 }
                 else if (item.type == wkeHttBodyElementType.wkeHttBodyElementTypeFile)
                 {
@@ -63,6 +64,11 @@ namespace Miniblink
             }
         }
 
+        public string GetRawData()
+        {
+            return rawData;
+        }
+
         public string GetValue(string name)
         {
             return _param.ContainsKey(name) ? _param[name] : null;
@@ -78,4 +84,6 @@ namespace Miniblink
     {
         public string FileName { get; internal set; }
     }
+
+   
 }
