@@ -1445,8 +1445,27 @@ namespace Miniblink
             }
         }
 
-        //[DllImport(DLL_x86, EntryPoint = "wkeOnLoadingFinish", CallingConvention = CallingConvention.Cdecl)]
-        //public static extern void wkeOnLoadingFinish(IntPtr webView, wkeLoadingFinishCallback callback, IntPtr param);
+        [DllImport(DLL_x86, EntryPoint = "wkeOnLoadingFinish", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void wkeOnLoadingFinish_x86(IntPtr webView, wkeLoadingFinishCallback callback, IntPtr param);
+        [DllImport(DLL_x64, EntryPoint = "wkeOnLoadingFinish", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void wkeOnLoadingFinish_x64(IntPtr webView, wkeLoadingFinishCallback callback, IntPtr param);
+        /// <summary>
+        /// 页面所有元素加载完成会调用。
+        /// </summary>
+        /// <param name="webView"></param>
+        /// <param name="callback"></param>
+        /// <param name="param"></param>
+        public static void wkeOnLoadingFinish(IntPtr webView, wkeLoadingFinishCallback callback, IntPtr param)
+        {
+            if (is64())
+            {
+                wkeOnLoadingFinish_x64(webView, callback, param);
+            }
+            else
+            {
+                wkeOnLoadingFinish_x86(webView, callback, param);
+            }
+        }
 
         [DllImport(DLL_x86, EntryPoint = "wkeOnDownload", CallingConvention = CallingConvention.Cdecl)]
         private static extern void wkeOnDownload_x86(IntPtr webView, wkeDownloadCallback callback, IntPtr param);

@@ -507,6 +507,33 @@ namespace WpfMiniBlink
             });
         }
 
+        private wkeLoadingFinishCallback _wkeLoadingFinish;
+        private EventHandler<LoadingFinishEventArgs> _loadingFinish;
+        /// <summary>
+        /// 页面加载完成事件。
+        /// </summary>
+        public event EventHandler<LoadingFinishEventArgs> LoadingFinish
+        {
+            add
+            {
+                if (_wkeLoadingFinish == null)
+                {
+                    MBApi.wkeOnLoadingFinish(MiniblinkHandle, _wkeLoadingFinish = new wkeLoadingFinishCallback(OnLoadingFinish), IntPtr.Zero);
+                }
+                _loadingFinish += value;
+            }
+            remove
+            {
+                _loadingFinish -= value;
+            }
+        }
+
+        protected virtual void OnLoadingFinish(IntPtr webView, IntPtr param, IntPtr url, wkeLoadingResult result,
+        IntPtr failedReason)
+        {
+            _loadingFinish?.Invoke(this, new LoadingFinishEventArgs() { FailedReason = failedReason.WKEToUTF8String(), LoadingResult = result, Url = url.WKEToUTF8String() });
+        }
+
         private wkeConsoleCallback _wkeConsoleMessage;
         private EventHandler<ConsoleMessageEventArgs> _consoleMessage;
 
