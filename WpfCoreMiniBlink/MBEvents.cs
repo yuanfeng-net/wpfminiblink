@@ -43,6 +43,19 @@ namespace Miniblink
         }
     }
 
+    public class LoadingFinishEventArgs : MiniblinkEventArgs
+    {
+        public string Url { get; set; }
+        public string FailedReason { get; set; }
+
+        public wkeLoadingResult LoadingResult { get; set; }
+
+        internal LoadingFinishEventArgs()
+        {
+
+        }
+    }
+
     public class ConsoleMessageEventArgs : MiniblinkEventArgs
     {
         public wkeConsoleLevel Level { get; internal set; }
